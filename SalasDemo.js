@@ -1,6 +1,7 @@
 import { validate } from "bycontract";
 import { Sala, Engine } from "./Basicas.js";
 
+// Importa os objetos que compõem as interações das salas
 import {
 	ImagemSaoBenedito,
 	BauAntigo,
@@ -10,27 +11,31 @@ import {
 	FragmentoEstandarte
 } from "./ObjetosDemo.js";
 
+// Importa as ferramentas que serão encontradas nas salas
 import {
 	MarteloDeProcissao,
 	LanternaDeSaoJose,
 	ChaveDeBronze
 } from "./FerramentasDemo.js";
 
-// Helper para adicionar o engine aos objetos
+// Função auxiliar para associar o engine aos objetos interativos
 function prepararObjeto(objeto, engine) {
 	objeto.engine = engine;
 	return objeto;
 }
 
-// ---------------------------------------------
+// ------------------------ Igreja de São Benedito ------------------------
+// Sala inicial onde está a imagem que encerra o jogo com vitória
 export class IgrejaDeSaoBenedito extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
 		super("Igreja_de_Sao_Benedito", engine);
+
 		const imagem = prepararObjeto(new ImagemSaoBenedito(), engine);
 		this.objetos.set(imagem.nome, imagem);
 	}
 
+	// Permite usar uma ferramenta sobre um objeto da sala
 	usa(ferramenta, objeto) {
 		validate(arguments, ["String", "String"]);
 		if (!this.engine.mochila.tem(ferramenta) || !this.objetos.has(objeto)) return false;
@@ -38,7 +43,8 @@ export class IgrejaDeSaoBenedito extends Sala {
 	}
 }
 
-// ---------------------------------------------
+// ------------------------ Casa de Dona Ditosa ------------------------
+// Sala onde se encontra o baú antigo e o martelo de procissão
 export class CasaDeDonaDitosa extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
@@ -58,7 +64,8 @@ export class CasaDeDonaDitosa extends Sala {
 	}
 }
 
-// ---------------------------------------------
+// ------------------------ Centro Histórico de Valença ------------------------
+// Sala com uma parede inscrita e a lanterna que a revela
 export class CentroHistoricoDeValenca extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
@@ -78,7 +85,8 @@ export class CentroHistoricoDeValenca extends Sala {
 	}
 }
 
-// ---------------------------------------------
+// ------------------------ Rio Caatinguinha ------------------------
+// Sala com o poço perigoso e a chave de bronze
 export class RioCaatinguinha extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);

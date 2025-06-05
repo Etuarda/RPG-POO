@@ -2,7 +2,10 @@ import { validate } from "bycontract";
 import { Objeto, Ferramenta } from "./Basicas.js";
 import { MarteloDeProcissao, LanternaDeSaoJose, ChaveDeBronze } from "./FerramentasDemo.js";
 
-// ---------------------------------------------
+// Importa objetos que surgem dinamicamente ao interagir com o baú
+import { CartaProfetica, FragmentoEstandarte } from "./ObjetosDemo.js";
+
+// Representa o objeto que finaliza o jogo com vitória ao ser ativado corretamente
 export class ImagemSaoBenedito extends Objeto {
 	constructor() {
 		super(
@@ -12,6 +15,7 @@ export class ImagemSaoBenedito extends Objeto {
 		);
 	}
 
+	// Só pode ser ativada com a Chave de Bronze
 	usar(ferramenta) {
 		validate(ferramenta, Ferramenta);
 		if (ferramenta instanceof ChaveDeBronze && ferramenta.usar()) {
@@ -23,7 +27,7 @@ export class ImagemSaoBenedito extends Objeto {
 	}
 }
 
-// ---------------------------------------------
+// Representa um baú trancado que revela novos objetos quando aberto com o martelo
 export class BauAntigo extends Objeto {
 	constructor() {
 		super(
@@ -33,6 +37,7 @@ export class BauAntigo extends Objeto {
 		);
 	}
 
+	// Ao usar o martelo, revela dois novos objetos simbólicos na sala
 	usar(ferramenta) {
 		validate(ferramenta, Ferramenta);
 		if (ferramenta instanceof MarteloDeProcissao && ferramenta.usar()) {
@@ -45,7 +50,7 @@ export class BauAntigo extends Objeto {
 	}
 }
 
-// ---------------------------------------------
+// Objeto que revela uma inscrição oculta quando iluminado pela lanterna
 export class ParedeComInscricao extends Objeto {
 	constructor() {
 		super(
@@ -55,6 +60,7 @@ export class ParedeComInscricao extends Objeto {
 		);
 	}
 
+	// A lanterna ativa o texto oculto
 	usar(ferramenta) {
 		validate(ferramenta, Ferramenta);
 		if (ferramenta instanceof LanternaDeSaoJose && ferramenta.usar()) {
@@ -65,7 +71,7 @@ export class ParedeComInscricao extends Objeto {
 	}
 }
 
-// ---------------------------------------------
+// Representa um local de risco que encerra o jogo com derrota ao ser ativado
 export class PocoAntigo extends Objeto {
 	constructor() {
 		super(
@@ -75,15 +81,16 @@ export class PocoAntigo extends Objeto {
 		);
 	}
 
+	// Qualquer interação com o poço ativa o fim do jogo (derrota)
 	usar(ferramenta) {
 		validate(ferramenta, Ferramenta);
-		console.log("💀 O uso imprudente acordou a Baleia Azul. Valença pereceu.");
+		console.log("O uso imprudente acordou a Baleia Azul. Valença pereceu.");
 		this.engine.indicaFimDeJogo();
 		return true;
 	}
 }
 
-// ---------------------------------------------
+// Objeto simbólico sem efeito prático, usado para imersão narrativa
 export class CartaProfetica extends Objeto {
 	constructor() {
 		super(
@@ -93,13 +100,14 @@ export class CartaProfetica extends Objeto {
 		);
 	}
 
+	// Não reage a nenhuma ferramenta
 	usar(ferramenta) {
 		validate(ferramenta, Ferramenta);
 		return false;
 	}
 }
 
-// ---------------------------------------------
+// Outro objeto simbólico encontrado no baú, também sem efeito mecânico
 export class FragmentoEstandarte extends Objeto {
 	constructor() {
 		super(
@@ -109,6 +117,7 @@ export class FragmentoEstandarte extends Objeto {
 		);
 	}
 
+	// Também não interage com ferramentas
 	usar(ferramenta) {
 		validate(ferramenta, Ferramenta);
 		return false;

@@ -1,4 +1,7 @@
+// Importa a classe principal que controla o jogo
 import { Engine } from "./Basicas.js";
+
+// Importa as salas específicas utilizadas no cenário
 import {
     IgrejaDeSaoBenedito,
     CasaDeDonaDitosa,
@@ -6,19 +9,22 @@ import {
     RioCaatinguinha
 } from "./SalasDemo.js";
 
+// Classe que representa o jogo específico "A Baleia Azul de Valença do Piauí"
+// Herda a estrutura básica da Engine
 export class JogoDemo extends Engine {
     constructor() {
-        super();
+        super(); // Inicializa a Engine (inclui mochila, sala corrente e criaCenario)
     }
 
+    // Método sobrescrito da Engine: define o mapa do jogo
     criaCenario() {
-        // Instancia as salas
+        // Instancia todas as salas com referência à engine
         const igreja = new IgrejaDeSaoBenedito(this);
         const casa = new CasaDeDonaDitosa(this);
         const centro = new CentroHistoricoDeValenca(this);
         const rio = new RioCaatinguinha(this);
 
-        // Define as conexões conforme o mapa textual
+        // Conecta as salas entre si (bidirecionalmente, onde necessário)
         igreja.portas.set(casa.nome, casa);
         casa.portas.set(igreja.nome, igreja);
         casa.portas.set(centro.nome, centro);
@@ -26,7 +32,7 @@ export class JogoDemo extends Engine {
         centro.portas.set(rio.nome, rio);
         rio.portas.set(centro.nome, centro);
 
-        // Define a sala inicial
+        // Define o ponto inicial do jogo
         this.salaCorrente = igreja;
     }
 }

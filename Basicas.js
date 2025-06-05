@@ -2,77 +2,80 @@ import { validate } from "bycontract";
 import promptsync from 'prompt-sync';
 const prompt = promptsync({ sigint: true });
 
-// ---------------------------------------------
-// Ferramenta base (pode ser estendida por subclasses)
+// Classe base para todas as ferramentas utilizadas pelo jogador
 export class Ferramenta {
 	#nome;
 
 	constructor(nome) {
-		validate(nome, "String");
+		validate(nome, "String"); // Verifica se o nome é uma string
 		this.#nome = nome;
 	}
 
 	get nome() {
-		return this.#nome;
+		return this.#nome; // Retorna o nome da ferramenta
 	}
 
 	usar() {
+		// Método padrão que deve ser sobrescrito nas subclasses
 		return true;
 	}
 }
 
-// ---------------------------------------------
-// Mochila com limite de 3 ferramentas e suporte a descarte
+// Classe que representa a mochila do jogador, com limite de armazenamento
 export class Mochila {
 	#ferramentas;
 	#limite;
 
 	constructor() {
-		this.#ferramentas = [];
-		this.#limite = 3;
+		this.#ferramentas = []; // Lista de ferramentas armazenadas
+		this.#limite = 3;       // Capacidade máxima da mochila
 	}
 
+	// Tenta guardar uma ferramenta na mochila
 	guarda(ferramenta) {
 		validate(ferramenta, Ferramenta);
 		if (this.#ferramentas.length >= this.#limite) {
-			console.log("❌ A mochila está cheia! Use 'descarta <nome>' para liberar espaço.");
+			console.log("A mochila está cheia! Use 'descarta <nome>' para liberar espaço.");
 			return false;
 		}
 		this.#ferramentas.push(ferramenta);
-		console.log(`✔️ ${ferramenta.nome} foi guardado na mochila.`);
+		console.log(`${ferramenta.nome} foi guardado na mochila.`);
 		return true;
 	}
 
+	// Remove uma ferramenta da mochila pelo nome
 	descarta(nomeFerramenta) {
 		validate(nomeFerramenta, "String");
 		const index = this.#ferramentas.findIndex(f => f.nome === nomeFerramenta);
 		if (index !== -1) {
 			this.#ferramentas.splice(index, 1);
-			console.log(`🗑️ Você descartou: ${nomeFerramenta}`);
+			console.log(`Você descartou: ${nomeFerramenta}`);
 			return true;
 		}
-		console.log(`⚠️ A ferramenta '${nomeFerramenta}' não está na mochila.`);
+		console.log(`A ferramenta '${nomeFerramenta}' não está na mochila.`);
 		return false;
 	}
 
+	// Retorna a ferramenta correspondente ao nome, se existir
 	pega(nomeFerramenta) {
 		validate(arguments, ["String"]);
 		return this.#ferramentas.find(f => f.nome === nomeFerramenta);
 	}
 
+	// Verifica se a ferramenta está presente na mochila
 	tem(nomeFerramenta) {
 		validate(arguments, ["String"]);
 		return this.#ferramentas.some(f => f.nome === nomeFerramenta);
 	}
 
+	// Retorna a lista de ferramentas da mochila
 	inventario() {
-		if (this.#ferramentas.length === 0) return "📦 Mochila vazia.";
+		if (this.#ferramentas.length === 0) return "Mochila vazia.";
 		return this.#ferramentas.map(obj => obj.nome).join(", ");
 	}
 }
 
-// ---------------------------------------------
-// Objeto genérico (pode ser estendido por objetos especiais)
+// Classe base para os objetos interativos do jogo
 export class Objeto {
 	#nome;
 	#descricaoAntesAcao;
@@ -105,12 +108,11 @@ export class Objeto {
 	}
 
 	usa(ferramenta, objeto) {
-		// Método sobrescrito nas subclasses
+		// Deve ser sobrescrito pelas subclasses
 	}
 }
 
-// ---------------------------------------------
-// Sala base (ambiente com objetos, ferramentas e conexões)
+// Classe que representa uma sala no jogo, onde o jogador pode interagir
 export class Sala {
 	#nome;
 	#objetos;
@@ -121,10 +123,10 @@ export class Sala {
 	constructor(nome, engine) {
 		validate(arguments, ["String", Engine]);
 		this.#nome = nome;
-		this.#objetos = new Map();
-		this.#ferramentas = new Map();
-		this.#portas = new Map();
-		this.#engine = engine;
+		this.#objetos = new Map();     // Mapeamento de objetos presentes
+		this.#ferramentas = new Map(); // Mapeamento de ferramentas presentes
+		this.#portas = new Map();      // Mapeamento para outras salas conectadas
+		this.#engine = engine;         // Referência ao controlador do jogo
 	}
 
 	get nome() {
@@ -147,21 +149,25 @@ export class Sala {
 		return this.#engine;
 	}
 
+	// Lista os objetos da sala com suas descrições
 	objetosDisponiveis() {
 		let arrObjs = [...this.#objetos.values()];
 		return arrObjs.map(obj => obj.nome + ": " + obj.descricao);
 	}
 
+	// Lista as ferramentas disponíveis na sala
 	ferramentasDisponiveis() {
 		let arrFer = [...this.#ferramentas.values()];
 		return arrFer.map(f => f.nome);
 	}
 
+	// Lista os nomes das salas conectadas
 	portasDisponiveis() {
 		let arrPortas = [...this.#portas.values()];
 		return arrPortas.map(sala => sala.nome);
 	}
 
+	// Tenta guardar a ferramenta da sala na mochila
 	pega(nomeFerramenta) {
 		validate(nomeFerramenta, "String");
 		let ferramenta = this.#ferramentas.get(nomeFerramenta);
@@ -171,11 +177,13 @@ export class Sala {
 		return false;
 	}
 
+	// Retorna a sala correspondente ao nome fornecido
 	sai(porta) {
 		validate(porta, "String");
 		return this.#portas.get(porta);
 	}
 
+	// Texto com a descrição geral da sala
 	textoDescricao() {
 		let descricao = `Você está no ${this.nome}\n`;
 		descricao += this.objetos.size === 0 ? "Não há objetos na sala\n" : "Objetos: " + this.objetosDisponiveis() + "\n";
@@ -184,23 +192,23 @@ export class Sala {
 		return descricao;
 	}
 
+	// Método padrão de uso, a ser sobrescrito nas subclasses
 	usa(ferramenta, objeto) {
 		return false;
 	}
 }
 
-// ---------------------------------------------
-// Engine: controle central do jogo
+// Classe que controla o fluxo geral do jogo
 export class Engine {
 	#mochila;
 	#salaCorrente;
 	#fim;
 
 	constructor() {
-		this.#mochila = new Mochila();
-		this.#salaCorrente = null;
-		this.#fim = false;
-		this.criaCenario();
+		this.#mochila = new Mochila();  // Instancia uma nova mochila
+		this.#salaCorrente = null;      // Sala atual
+		this.#fim = false;              // Indica se o jogo foi encerrado
+		this.criaCenario();             // Monta o mapa do jogo (sobrescrito nas subclasses)
 	}
 
 	get mochila() {
@@ -216,14 +224,15 @@ export class Engine {
 		this.#salaCorrente = sala;
 	}
 
+	// Marca o jogo como encerrado
 	indicaFimDeJogo() {
 		this.#fim = true;
 	}
 
-	criaCenario() {
-		// Deve ser sobrescrito por subclasses (ex: JogoDemo)
-	}
+	// Método que deve ser sobrescrito para montar o cenário do jogo
+	criaCenario() { }
 
+	// Laço principal do jogo (interpretador de comandos)
 	joga() {
 		let novaSala = null;
 		let acao = "";
@@ -232,6 +241,7 @@ export class Engine {
 		while (!this.#fim) {
 			console.log("-------------------------");
 			console.log(this.salaCorrente.textoDescricao());
+
 			acao = prompt("O que você deseja fazer? ");
 			tokens = acao.split(" ");
 
@@ -248,7 +258,7 @@ export class Engine {
 					break;
 				case "descarta":
 					if (!tokens[1]) {
-						console.log("⚠️ Informe o nome da ferramenta para descartar.");
+						console.log("Informe o nome da ferramenta para descartar.");
 					} else {
 						this.#mochila.descarta(tokens[1]);
 					}
