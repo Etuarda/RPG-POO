@@ -1,27 +1,32 @@
-import {Engine} from "./Basicas.js"
-import { Cozinha, HallEntrada, Quarto, SalaDeEstar } from "./SalasDemo.js";
+import { Engine } from "./Basicas.js";
+import {
+    IgrejaDeSaoBenedito,
+    CasaDeDonaDitosa,
+    CentroHistoricoDeValenca,
+    RioCaatinguinha
+} from "./SalasDemo.js";
 
-export class JogoDemo extends Engine{
-    constructor(){
+export class JogoDemo extends Engine {
+    constructor() {
         super();
     }
 
-    criaCenario(){
-        // Define as salas que compõem o mapa
-        let hall = new HallEntrada(this);
-        let sala = new SalaDeEstar(this);
-        let quarto = new Quarto(this);
-        let cozinha = new Cozinha(this);
+    criaCenario() {
+        // Instancia as salas
+        const igreja = new IgrejaDeSaoBenedito(this);
+        const casa = new CasaDeDonaDitosa(this);
+        const centro = new CentroHistoricoDeValenca(this);
+        const rio = new RioCaatinguinha(this);
 
-        // Encadeia as salas através das portas
-        hall.portas.set(sala.nome,sala);
-        sala.portas.set(hall.nome,hall);
-        sala.portas.set(quarto.nome,quarto);
-        sala.portas.set(cozinha.nome,cozinha);
-        quarto.portas.set(sala.nome,sala);
-        cozinha.portas.set(sala.nome,sala);
+        // Define as conexões conforme o mapa textual
+        igreja.portas.set(casa.nome, casa);
+        casa.portas.set(igreja.nome, igreja);
+        casa.portas.set(centro.nome, centro);
+        centro.portas.set(casa.nome, casa);
+        centro.portas.set(rio.nome, rio);
+        rio.portas.set(centro.nome, centro);
 
         // Define a sala inicial
-        this.salaCorrente = hall;
+        this.salaCorrente = igreja;
     }
 }
