@@ -29,7 +29,7 @@ O jogador deve impedir o despertar da Baleia Azul, uma entidade folclórica que 
 
 ---
 
-## ⚙️ Funcionalidades Implementadas
+##  Funcionalidades Implementadas
 
 ### Ferramentas
 
@@ -52,7 +52,7 @@ O jogador deve impedir o despertar da Baleia Azul, uma entidade folclórica que 
 
 ---
 
-## 🧠 Comandos do Jogo
+##  Comandos do Jogo
 
 Digite os seguintes comandos durante o jogo:
 
@@ -67,7 +67,7 @@ Digite os seguintes comandos durante o jogo:
 
 ---
 
-## 🧠 Conceitos de POO Aplicados
+##  Conceitos de POO Aplicados
 
 * **Encapsulamento**: Uso de atributos privados com `#`.
 * **Herança**: Ferramentas e Objetos são especializados a partir de classes base.
@@ -76,7 +76,7 @@ Digite os seguintes comandos durante o jogo:
 
 ---
 
-## 📂 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 rpg-poo/
@@ -93,7 +93,7 @@ rpg-poo/
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 1. **Clone o repositório:**
 
