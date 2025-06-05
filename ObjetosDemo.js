@@ -2,8 +2,7 @@ import { validate } from "bycontract";
 import { Objeto, Ferramenta } from "./Basicas.js";
 import { MarteloDeProcissao, LanternaDeSaoJose, ChaveDeBronze } from "./FerramentasDemo.js";
 
-// Importa objetos que surgem dinamicamente ao interagir com o baú
-import { CartaProfetica, FragmentoEstandarte } from "./ObjetosDemo.js";
+
 
 // Representa o objeto que finaliza o jogo com vitória ao ser ativado corretamente
 export class ImagemSaoBenedito extends Objeto {
