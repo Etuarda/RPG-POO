@@ -1,3 +1,4 @@
+// Salas adicionais e principais do jogo: A Baleia Azul de Valença do Piauí
 import { validate } from "bycontract";
 import { Sala, Engine } from "./Basicas.js";
 
@@ -24,8 +25,15 @@ function prepararObjeto(objeto, engine) {
 	return objeto;
 }
 
+// ------------------------ Rachaduras da Igreja ------------------------
+export class RachadurasDaIgreja extends Sala {
+	constructor(engine) {
+		validate(engine, Engine);
+		super("Rachaduras_da_Igreja", engine);
+	}
+}
+
 // ------------------------ Igreja de São Benedito ------------------------
-// Sala inicial onde está a imagem que encerra o jogo com vitória
 export class IgrejaDeSaoBenedito extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
@@ -35,7 +43,6 @@ export class IgrejaDeSaoBenedito extends Sala {
 		this.objetos.set(imagem.nome, imagem);
 	}
 
-	// Permite usar uma ferramenta sobre um objeto da sala
 	usa(ferramenta, objeto) {
 		validate(arguments, ["String", "String"]);
 		if (!this.engine.mochila.tem(ferramenta) || !this.objetos.has(objeto)) return false;
@@ -44,7 +51,6 @@ export class IgrejaDeSaoBenedito extends Sala {
 }
 
 // ------------------------ Casa de Dona Ditosa ------------------------
-// Sala onde se encontra o baú antigo e o martelo de procissão
 export class CasaDeDonaDitosa extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
@@ -65,7 +71,6 @@ export class CasaDeDonaDitosa extends Sala {
 }
 
 // ------------------------ Centro Histórico de Valença ------------------------
-// Sala com uma parede inscrita e a lanterna que a revela
 export class CentroHistoricoDeValenca extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
@@ -86,7 +91,6 @@ export class CentroHistoricoDeValenca extends Sala {
 }
 
 // ------------------------ Rio Caatinguinha ------------------------
-// Sala com o poço perigoso e a chave de bronze
 export class RioCaatinguinha extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
@@ -103,5 +107,20 @@ export class RioCaatinguinha extends Sala {
 		validate(arguments, ["String", "String"]);
 		if (!this.engine.mochila.tem(ferramenta) || !this.objetos.has(objeto)) return false;
 		return this.objetos.get(objeto).usar(this.engine.mochila.pega(ferramenta));
+	}
+}
+
+// ------------------------ Igreja de Nossa Senhora da Conceição ------------------------
+export class IgrejaNossaSenhoraDaConceicao extends Sala {
+	constructor(engine) {
+		validate(engine, Engine);
+		super("Igreja_de_Nossa_Senhora_da_Conceicao", engine);
+	}
+
+	usa(ferramenta, objeto) {
+		console.log("Você chegou à Igreja de Nossa Senhora da Conceição sem completar o ritual...");
+		console.log("A terra treme. Um rugido ecoa pelas montanhas. A Baleia Azul despertou.");
+		this.engine.indicaFimDeJogo();
+		return true;
 	}
 }

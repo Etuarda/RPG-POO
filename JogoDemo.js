@@ -1,38 +1,49 @@
 // Importa a classe principal que controla o jogo
 import { Engine } from "./Basicas.js";
 
-// Importa as salas específicas utilizadas no cenário
+// Importa todas as salas utilizadas no cenário
 import {
+    RachadurasDaIgreja,
     IgrejaDeSaoBenedito,
     CasaDeDonaDitosa,
     CentroHistoricoDeValenca,
-    RioCaatinguinha
+    RioCaatinguinha,
+    IgrejaNossaSenhoraDaConceicao
 } from "./SalasDemo.js";
 
-// Classe que representa o jogo específico "A Baleia Azul de Valença do Piauí"
-// Herda a estrutura básica da Engine
+// Classe que representa o jogo "A Baleia Azul de Valença do Piauí"
 export class JogoDemo extends Engine {
     constructor() {
-        super(); // Inicializa a Engine (inclui mochila, sala corrente e criaCenario)
+        super();
     }
 
-    // Método sobrescrito da Engine: define o mapa do jogo
     criaCenario() {
-        // Instancia todas as salas com referência à engine
+        // Instancia todas as salas
+        const rachaduras = new RachadurasDaIgreja(this);
         const igreja = new IgrejaDeSaoBenedito(this);
         const casa = new CasaDeDonaDitosa(this);
         const centro = new CentroHistoricoDeValenca(this);
         const rio = new RioCaatinguinha(this);
+        const igrejaNSC = new IgrejaNossaSenhoraDaConceicao(this);
 
-        // Conecta as salas entre si (bidirecionalmente, onde necessário)
+        // Define conexões entre as salas conforme o mapa
+        rachaduras.portas.set(igreja.nome, igreja);
+
+        igreja.portas.set(rachaduras.nome, rachaduras);
         igreja.portas.set(casa.nome, casa);
+
         casa.portas.set(igreja.nome, igreja);
         casa.portas.set(centro.nome, centro);
+
         centro.portas.set(casa.nome, casa);
         centro.portas.set(rio.nome, rio);
-        rio.portas.set(centro.nome, centro);
 
-        // Define o ponto inicial do jogo
-        this.salaCorrente = igreja;
+        rio.portas.set(centro.nome, centro);
+        rio.portas.set(igrejaNSC.nome, igrejaNSC);
+
+        igrejaNSC.portas.set(rio.nome, rio);
+
+        // Sala inicial do jogo
+        this.salaCorrente = rachaduras;
     }
 }

@@ -1,60 +1,63 @@
-#  A Baleia Azul de Valença do Piauí – RPG Textual com Programação Orientada a Objetos
+# A Baleia Azul de Valença do Piauí – RPG Textual com Programação Orientada a Objetos
 
 Este é um jogo de aventura textual baseado em uma lenda folclórica da cidade de Valença do Piauí, criado como projeto acadêmico para praticar os conceitos de Programação Orientada a Objetos (POO) com JavaScript.
 
 ---
 
-##  Objetivo do Jogo
+## Objetivo do Jogo
 
 O jogador deve impedir o despertar da Baleia Azul, uma entidade folclórica que ameaça engolir a cidade. Para isso, precisa reunir ferramentas e interagir com objetos simbólicos espalhados por locais históricos, completando um ritual de proteção conduzido por São Benedito.
 
 ---
 
-##  Mecânica do Jogo
+## Mecânica do Jogo
 
-* O jogo é jogado no terminal (CLI).
-* O jogador pode interagir com salas, objetos e ferramentas.
-* A mochila tem **limite de 3 ferramentas** e suporte a descarte.
-* Cada objeto ou ferramenta possui comportamentos específicos.
-* O jogo pode terminar com **vitória** ou **derrota**, dependendo das escolhas do jogador.
+- O jogo é jogado no terminal (CLI).
+- O jogador pode interagir com salas, objetos e ferramentas.
+- A mochila tem **limite de 3 ferramentas** e suporte a descarte.
+- Cada objeto ou ferramenta possui comportamentos específicos.
+- O jogo pode terminar com **vitória** ou **derrota**, dependendo das escolhas do jogador.
+- - Salas narrativas adicionais poderão ser incluídas em versões futuras para aprofundar a imersão no universo mítico do jogo.
 
----
-
-##  Mapa do Cenário
-
-1. **Igreja de São Benedito** – Início da jornada, onde está a imagem sagrada.
-2. **Casa de Dona Ditosa** – Contém o baú trancado e o Martelo de Procissão.
-3. **Centro Histórico de Valença** – Local da parede com inscrições antigas e da Lanterna de São José.
-4. **Rio Caatinguinha** – Esconde o poço antigo e a Chave de Bronze.
 
 ---
 
-##  Funcionalidades Implementadas
+## Mapa do Cenário (Ordem Recomendada)
+
+1. **Rachaduras da Igreja** – Início da jornada. Revela instabilidade do selo da Baleia.
+2. **Igreja de São Benedito** – Local sagrado com a imagem que finaliza o ritual.
+3. **Casa de Dona Ditosa** – Contém o baú trancado e o Martelo de Procissão.
+4. **Centro Histórico de Valença** – Tem a inscrição sagrada e a Lanterna de São José.
+5. **Rio Caatinguinha** – Guarda a Chave de Bronze. Contém o poço arriscado.
+6. **Igreja de Nossa Senhora da Conceição** – Final alternativo (derrota).
+
+
+---
+
+## Funcionalidades Implementadas
 
 ### Ferramentas
 
-* `MarteloDeProcissao`: 2 usos.
-* `LanternaDeSaoJose`: 3 usos.
-* `ChaveDeBronze`: uso único.
+- `MarteloDeProcissao`: 2 usos.
+- `LanternaDeSaoJose`: 3 usos.
+- `ChaveDeBronze`: uso único.
 
 ### Objetos Interativos
 
-* `ImagemSaoBenedito`: ativa a vitória.
-* `BauAntigo`: libera objetos narrativos.
-* `ParedeComInscricao`: revela mensagem com lanterna.
-* `PocoAntigo`: se ativado, leva à derrota.
-* `CartaProfetica` e `FragmentoEstandarte`: objetos simbólicos.
+- `ImagemSaoBenedito`: ativa a vitória.
+- `BauAntigo`: libera objetos narrativos.
+- `ParedeComInscricao`: revela mensagem com lanterna.
+- `PocoAntigo`: se ativado, leva à derrota.
+- `CartaProfetica` e `FragmentoEstandarte`: objetos simbólicos.
 
 ### Mochila
 
-* Limite de 3 itens.
-* Permite `pega`, `descarta`, `inventario`, `usa`.
+- Limite de 3 itens.
+- Permite `pega`, `descarta`, `inventario`, `usa`.
 
 ---
 
-##  Comandos do Jogo
-
-Digite os seguintes comandos durante o jogo:
+## Comandos do Jogo
 
 | Comando                     | Ação                                             |
 | --------------------------- | ------------------------------------------------ |
@@ -67,16 +70,18 @@ Digite os seguintes comandos durante o jogo:
 
 ---
 
-##  Conceitos de POO Aplicados
+## Conceitos de POO Aplicados
 
-* **Encapsulamento**: Uso de atributos privados com `#`.
-* **Herança**: Ferramentas e Objetos são especializados a partir de classes base.
-* **Polimorfismo**: Métodos `usar` redefinidos por subclasses.
-* **Mapeamento**: Salas, objetos e ferramentas organizados com `Map`.
+- **Encapsulamento**: Uso de atributos privados com `#`.
+- **Herança**: Ferramentas e Objetos são especializados a partir de classes base.
+- **Polimorfismo**: Métodos `usar` redefinidos por subclasses.
+- **Mapeamento**: Salas, objetos e ferramentas organizados com `Map`.
 
 ---
 
-##  Estrutura do Projeto
+## Estrutura do Projeto
+
+
 
 ```
 rpg-poo/
